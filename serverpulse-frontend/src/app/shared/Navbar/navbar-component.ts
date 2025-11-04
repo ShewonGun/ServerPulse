@@ -45,17 +45,18 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Format time as HH:MM
+   * Format time as H H : M M (with spaces between each character)
    */
   private formatTime(date: Date): string {
     const hours = date.getHours().toString().padStart(2, '0');
     const minutes = date.getMinutes().toString().padStart(2, '0');
     
-    return `${hours}:${minutes}`;
+    const timeString = `${hours}:${minutes}`;
+    return timeString.split('').join(' ');
   }
 
   /**
-   * Format date as "Nov 4, 2025"
+   * Format date as "N o v     4 ,   2 0 2 5" (with more space between month and day)
    */
   private formatDate(date: Date): string {
     const options: Intl.DateTimeFormatOptions = {
@@ -64,6 +65,16 @@ export class NavbarComponent implements OnInit, OnDestroy {
       day: 'numeric'
     };
     
-    return date.toLocaleDateString('en-US', options);
+    const formattedDate = date.toLocaleDateString('en-US', options);
+    // Split by comma to separate "Nov 4" from "2025"
+    const parts = formattedDate.split(', ');
+    if (parts.length === 2) {
+      // Add more spaces between month and day, and spaces between all characters in year
+      const monthDayWithExtraSpace = parts[0].replace(' ', '         '); // 9 spaces between Nov and 4
+      const monthDaySpaced = monthDayWithExtraSpace.split('').join(' ');
+      const yearSpaced = parts[1].split('').join(' ');
+      return `${monthDaySpaced} , ${yearSpaced}`;
+    }
+    return formattedDate.split('').join(' ');
   }
 }
