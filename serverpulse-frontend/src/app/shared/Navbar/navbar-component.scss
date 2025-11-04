@@ -1,0 +1,178 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  background: #1a1a1a;
+  border-bottom: 1px solid #333;
+  z-index: 1000;
+}
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+// Left Side - Logo/Title
+.navbar-left {
+  display: flex;
+  align-items: center;
+
+  .logo-container {
+    display: flex;
+    align-items: center;
+
+    .logo-text {
+      font-size: 28px;
+      font-weight: 700;
+      color: #ffffff;
+      margin: 0;
+      letter-spacing: -0.5px;
+    }
+  }
+}
+
+// Right Side - Date and Time
+.navbar-right {
+  display: flex;
+  align-items: center;
+  width: 60%; // Match the 1.5fr column proportion (1.5/2.5 = 0.6)
+  justify-content: flex-end;
+
+  .datetime-container {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+
+    .time-display,
+    .date-display {
+      display: flex;
+      align-items: center;
+
+      .time {
+        font-size: 20px;
+        font-weight: 700;
+        color: #ffffff;
+        font-family: 'Courier New', monospace;
+        letter-spacing: 1px;
+        min-width: 60px;
+      }
+
+      .date {
+        font-size: 16px;
+        font-weight: 500;
+        color: #ffffff;
+        letter-spacing: 0.5px;
+        white-space: nowrap;
+      }
+    }
+
+    .time-display {
+      padding-right: 24px;
+      border-right: 1px solid #333;
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 1024px) {
+  .navbar-container {
+    padding: 0 24px;
+  }
+
+  .navbar-left {
+    .logo-container {
+      .logo-text {
+        font-size: 24px;
+      }
+    }
+  }
+
+  .navbar-right {
+    .datetime-container {
+      gap: 16px;
+
+      .time {
+        font-size: 18px;
+        min-width: 50px;
+      }
+
+      .date {
+        font-size: 14px;
+      }
+
+      .time-display {
+        padding-right: 16px;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    height: 60px;
+  }
+
+  .navbar-container {
+    padding: 0 16px;
+  }
+
+  .navbar-left {
+    .logo-container {
+      .logo-text {
+        font-size: 20px;
+      }
+    }
+  }
+
+  .navbar-right {
+    .datetime-container {
+      flex-direction: column;
+      gap: 8px;
+      align-items: flex-end;
+
+      .time {
+        font-size: 16px;
+        min-width: 40px;
+      }
+
+      .date {
+        font-size: 12px;
+      }
+
+      .time-display {
+        padding-right: 0;
+        border-right: none;
+        border-bottom: 1px solid #333;
+        padding-bottom: 8px;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar-left {
+    .logo-container {
+      .logo-text {
+        font-size: 18px;
+      }
+    }
+  }
+
+  .navbar-right {
+    .datetime-container {
+      .date {
+        font-size: 11px;
+        max-width: 150px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+}

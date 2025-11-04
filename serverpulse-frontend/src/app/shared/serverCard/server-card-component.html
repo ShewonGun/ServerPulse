@@ -1,0 +1,122 @@
+<div class="server-card">
+  <!-- Header with rack name and status indicator -->
+  <div class="card-header">
+    <h2 class="rack-name">{{ data.rackName }}</h2>
+    <div class="status-indicator" 
+         [style.background-color]="statusColor"
+         [style.box-shadow]="'0 0 20px ' + statusColor"></div>
+  </div>
+
+  <!-- Semicircular temperature gauge -->
+  <div class="gauge-container">
+    <svg class="semicircular-gauge" viewBox="0 0 200 120">
+      <defs>
+        <!-- Enhanced temperature gradient with smooth transitions -->
+        <linearGradient [id]="gradientId" x1="0%" y1="0%" x2="100%" y2="0%" gradientUnits="objectBoundingBox">
+          <!-- Pure Green zone: Start to safe zone -->
+          <stop offset="0%" stop-color="#00ff88" />
+          <stop [attr.offset]="greenZoneEnd + '%'" stop-color="#00ff88" />
+          
+          <!-- Green to Yellow transition zone -->
+          <stop [attr.offset]="greenToYellowStart + '%'" stop-color="#00ff88" />
+          <stop [attr.offset]="greenToYellowEnd + '%'" stop-color="#66dd44" />
+          <stop [attr.offset]="yellowZoneStart + '%'" stop-color="#ffaa00" />
+          
+          <!-- Pure Yellow zone: Approaching max -->
+          <stop [attr.offset]="yellowZoneEnd + '%'" stop-color="#ffaa00" />
+          
+          <!-- Yellow to Red transition zone -->
+          <stop [attr.offset]="yellowToRedStart + '%'" stop-color="#ffaa00" />
+          <stop [attr.offset]="yellowToRedMid + '%'" stop-color="#ff7722" />
+          <stop [attr.offset]="yellowToRedEnd + '%'" stop-color="#ff4444" />
+          
+          <!-- Pure Red zone: Critical -->
+          <stop offset="100%" stop-color="#ff4444" />
+        </linearGradient>
+        
+        <!-- Enhanced glow effect filter -->
+        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+          <feGaussianBlur stdDeviation="2" result="innerGlow"/>
+          <feMerge>
+            <feMergeNode in="coloredBlur"/>
+            <feMergeNode in="innerGlow"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+        
+        <!-- Balanced glow for progress line -->
+        <filter id="transitionGlow" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="2" result="mediumGlow"/>
+          <feGaussianBlur stdDeviation="0.5" result="sharpGlow"/>
+          <feMerge>
+            <feMergeNode in="mediumGlow"/>
+            <feMergeNode in="sharpGlow"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+      </defs>
+      
+      <!-- Background semicircle -->
+      <path
+        class="gauge-background"
+        d="M 20 100 A 80 80 0 0 1 180 100"
+        fill="none"
+        stroke="#2a2a2a"
+        stroke-width="8"
+        stroke-linecap="round"
+      />
+      
+      <!-- Progress semicircle with enhanced gradient and glow effect -->
+      <path
+        class="gauge-progress"
+        d="M 20 100 A 80 80 0 0 1 180 100"
+        fill="none"
+        [attr.stroke]="gradientUrl"
+        stroke-width="8"
+        stroke-linecap="round"
+        [attr.stroke-dasharray]="'251.33 251.33'"
+        [attr.stroke-dashoffset]="strokeDashoffset"
+        filter="url(#transitionGlow)"
+      />
+    </svg>
+
+    <!-- Center temperature display -->
+    <div class="temperature-display">
+      <div class="current-temp" 
+           [style.color]="statusColor"
+           [style.text-shadow]="'0 0 15px ' + statusColor + '80, 0 2px 4px rgba(0,0,0,0.3)'">{{ data.currentTemp }}°</div>
+      <div class="temp-unit">{{ unitText }}</div>
+    </div>
+  </div>
+
+  <!-- Statistics section -->
+  <div class="stats-container">
+    <div class="stat-item">
+      <div class="stat-value">{{ data.minTemp }}°</div>
+      <div class="stat-label">MIN</div>
+    </div>
+    
+    <div class="stat-item">
+      <div class="stat-value">{{ data.maxTemp }}°</div>
+      <div class="stat-label">MAX</div>
+    </div>
+    
+    <div class="stat-item">
+      <div class="stat-value">{{ avgTemp }}°</div>
+      <div class="stat-label">AVG</div>
+    </div>
+  </div>
+
+  <!-- Mini Temperature Trend Chart (only shown for featured card) -->
+  @if (showChart) {
+    <div class="trend-chart-container">
+      <div class="trend-chart-header">
+        <span class="trend-label">14-DAY TREND</span>
+      </div>
+      <div class="trend-chart-wrapper" [class]="'status-' + status">
+        <canvas #trendChart></canvas>
+      </div>
+    </div>
+  }
+</div>

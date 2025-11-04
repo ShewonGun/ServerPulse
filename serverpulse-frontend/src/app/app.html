@@ -1,0 +1,220 @@
+<!-- ServerPulse - Server Monitoring Dashboard -->
+<style>
+  :host {
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+      "Segoe UI Symbol";
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    display: block;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+    background-attachment: fixed;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  .app-container {
+    min-height: 100vh;
+    height: 100%;
+    background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+    background-attachment: fixed;
+    color: #ffffff;
+    padding: 0;
+  }
+
+  .app-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .app-header h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #00ff88 0%, #0088ff 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+  }
+
+  .app-header p {
+    font-size: 1.2rem;
+    color: #888;
+    margin: 0;
+  }
+
+  .main-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    margin-top: 70px;
+    padding: 1rem 1rem 1rem 1rem;
+    min-height: calc(100vh - 70px);
+  }
+
+  .dashboard-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 1.5rem;
+    min-height: calc(100vh - 120px);
+    padding: 0;
+  }
+
+  .featured-section {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    margin-top: 0;
+    padding-top: 0;
+  }
+
+  .featured-card {
+    width: 100%;
+    max-width: 450px;
+    transform: scale(0.95);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .small-cards-section {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    align-content: start;
+    overflow: visible;
+    height: fit-content;
+    margin-top: -1rem;
+    padding-bottom: 5rem;
+  }
+
+  .small-card {
+    transform: scale(0.65);
+    transition: all 0.3s ease;
+    opacity: 0.9;
+    margin: -3rem -3rem -5rem -3rem;
+  }
+
+  .small-card:hover {
+    transform: scale(0.7);
+    opacity: 1;
+  }
+
+  @media screen and (max-width: 1200px) {
+    .main-content {
+      margin-top: 70px;
+      padding: 0.75rem 1rem 1rem 1rem;
+    }
+    
+    .dashboard-layout {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto 1fr;
+      min-height: calc(100vh - 110px);
+    }
+    
+    .featured-section {
+      margin-top: 0;
+      align-items: flex-start;
+      padding-top: 0;
+    }
+    
+    .small-cards-section {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      margin-top: -1rem;
+      padding-bottom: 4.5rem;
+      overflow: visible;
+    }
+    
+    .featured-card {
+      transform: scale(1);
+    }
+    
+    .small-card {
+      transform: scale(0.7);
+      margin: -2.5rem -2.5rem -4.5rem -2.5rem;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .main-content {
+      margin-top: 70px;
+      padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+    }
+    
+    .dashboard-layout {
+      min-height: calc(100vh - 100px);
+      padding: 0;
+    }
+    
+    .featured-section {
+      margin-top: 0;
+      align-items: flex-start;
+      padding-top: 0;
+    }
+    
+    .small-cards-section {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      margin-top: -1rem;
+      padding-bottom: 4rem;
+      overflow: visible;
+    }
+    
+    .featured-card {
+      transform: scale(0.85);
+      max-width: 400px;
+    }
+    
+    .small-card {
+      transform: scale(0.6);
+      margin: -2rem -2rem -4rem -2rem;
+    }
+    
+    .server-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    
+    .app-header h1 {
+      font-size: 2rem;
+    }
+    
+    .app-container {
+      padding: 1rem;
+    }
+  }
+</style>
+
+<div class="app-container">
+  <!-- Navigation Bar -->
+  <app-navbar></app-navbar>
+  
+  <main class="main-content">
+    <div class="dashboard-layout">
+      <!-- Featured Card (Large) -->
+      <div class="featured-section">
+        <div class="featured-card">
+          <app-server-card [data]="featuredServer" [showChart]="true"></app-server-card>
+        </div>
+      </div>
+
+      <!-- Small Cards Grid -->
+      <div class="small-cards-section">
+        @for (server of smallCards; track trackByServerName($index, server)) {
+          <div class="small-card">
+            <app-server-card [data]="server" [showChart]="false"></app-server-card>
+          </div>
+        }
+      </div>
+    </div>
+  </main>
+
+  <!-- Router outlet for future routing -->
+  <router-outlet />
+</div>

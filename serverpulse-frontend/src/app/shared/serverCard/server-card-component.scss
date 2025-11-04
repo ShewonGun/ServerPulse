@@ -1,0 +1,312 @@
+.server-card {
+  background: #0d0d0d;
+  border: 1px solid #404040;
+  border-radius: 6px;
+  padding: 32px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  position: relative;
+  overflow: hidden;
+
+  // Subtle background pattern
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 20% 30%, rgba(0, 255, 136, 0.03) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(0, 255, 136, 0.02) 0%, transparent 50%);
+    pointer-events: none;
+  }
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+  position: relative;
+  z-index: 1;
+
+  .rack-name {
+    font-size: 32px;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0;
+    letter-spacing: -0.5px;
+  }
+
+  .status-indicator {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
+}
+
+.gauge-container {
+  position: relative;
+  width: 280px;
+  height: 180px; // Reduced height for semicircle
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+
+  .semicircular-gauge {
+    width: 100%;
+    height: 100%;
+
+    .gauge-background {
+      opacity: 0.3;
+      stroke: #404040;
+      stroke-width: 8;
+    }
+
+    .gauge-progress {
+      transition: stroke-dashoffset 1.5s cubic-bezier(0.4, 0, 0.2, 1), 
+                  filter 0.3s ease;
+      opacity: 1;
+      stroke-width: 8;
+      fill: none;
+      
+      // Balanced hover effect with subtle animation
+      &:hover {
+        filter: url(#transitionGlow) brightness(1.08);
+        stroke-width: 9;
+      }
+      
+      // Gentle breathing animation
+      animation: gentleGlow 4s ease-in-out infinite alternate;
+    }
+    
+    @keyframes gentleGlow {
+      0% {
+        filter: url(#transitionGlow) brightness(1);
+      }
+      100% {
+        filter: url(#transitionGlow) brightness(1.02) saturate(1.05);
+      }
+    }
+  }
+
+  .temperature-display {
+    position: absolute;
+    bottom: 20px; // Position at bottom of semicircle
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+
+    .current-temp {
+      font-size: 48px; // Reduced size for semicircle layout
+      font-weight: 700;
+      line-height: 1;
+      margin-bottom: 4px;
+      letter-spacing: -1px;
+      transition: all 0.3s ease;
+    }
+
+    .temp-unit {
+      font-size: 16px;
+      font-weight: 500;
+      color: #666666;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+  }
+  
+  // Enhanced gradient zone visual indicators
+  .gradient-indicators {
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 3px;
+    opacity: 0.7;
+    
+    .zone-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+      
+      &.green { 
+        background: radial-gradient(circle, #22cc22, #66dd44);
+        filter: drop-shadow(0 0 6px #22cc22) drop-shadow(0 0 12px rgba(34, 204, 34, 0.6));
+      }
+      &.yellow { 
+        background: radial-gradient(circle, #ffcc00, #ff7722);
+        filter: drop-shadow(0 0 6px #ffcc00) drop-shadow(0 0 12px rgba(255, 204, 0, 0.6));
+      }
+      &.red { 
+        background: radial-gradient(circle, #ff4444, #cc1111);
+        filter: drop-shadow(0 0 6px #ff4444) drop-shadow(0 0 12px rgba(255, 68, 68, 0.6));
+      }
+      
+      &:hover {
+        transform: scale(1.2);
+        opacity: 1;
+      }
+    }
+  }
+}
+
+@keyframes gaugeGlow {
+  0%, 100% {
+    opacity: 0.9;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.stats-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  position: relative;
+  z-index: 1;
+
+  .stat-item {
+    flex: 1;
+    text-align: center;
+
+    &:not(:last-child) {
+      border-right: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .stat-value {
+      font-size: 32px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
+    }
+
+    .stat-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: #666666;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .server-card {
+    padding: 24px;
+    max-width: 100%;
+  }
+
+  .card-header {
+    margin-bottom: 32px;
+
+    .rack-name {
+      font-size: 28px;
+    }
+  }
+
+  .gauge-container {
+    width: 240px;
+    height: 240px;
+    margin-bottom: 32px;
+
+    .temperature-display {
+      .current-temp {
+        font-size: 60px;
+      }
+
+      .temp-unit {
+        font-size: 14px;
+      }
+    }
+  }
+
+  .stats-container {
+    .stat-item {
+      .stat-value {
+        font-size: 28px;
+      }
+
+      .stat-label {
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .gauge-container {
+    width: 200px;
+    height: 200px;
+
+    .temperature-display {
+      .current-temp {
+        font-size: 48px;
+      }
+    }
+  }
+
+  .stats-container {
+    .stat-item {
+      .stat-value {
+        font-size: 24px;
+      }
+    }
+  }
+}
+
+// Mini Temperature Trend Chart Styles
+.trend-chart-container {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+
+  .trend-chart-header {
+    margin-bottom: 12px;
+    
+    .trend-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #888888;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+  }
+
+  .trend-chart-wrapper {
+    height: 100px;
+    position: relative;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 4px;
+    padding: 12px;
+    transition: box-shadow 0.3s ease;
+
+    canvas {
+      width: 100% !important;
+      height: 100% !important;
+    }
+    
+
+  }
+}
