@@ -15,6 +15,13 @@ export class App implements OnInit, OnDestroy {
   // Current featured server (large card)
   featuredServerIndex = signal(0);
   
+  // Pagination for small cards
+  currentPage = signal(0);
+  readonly itemsPerPage = 6;
+  
+  // Array constructor for template
+  protected readonly Array = Array;
+  
   // Auto-rotation interval
   private rotationInterval?: any;
   
@@ -61,6 +68,34 @@ export class App implements OnInit, OnDestroy {
       minTemp: 22,
       maxTemp: 35,
       unit: 'celsius'
+    },
+    {
+      rackName: 'Rack 07',
+      currentTemp: 25,        // Safe zone (green)
+      minTemp: 18,
+      maxTemp: 32,
+      unit: 'celsius'
+    },
+    {
+      rackName: 'Rack 08',
+      currentTemp: 35,        // Warning zone (yellow)
+      minTemp: 20,
+      maxTemp: 38,
+      unit: 'celsius'
+    },
+    {
+      rackName: 'Rack 09',
+      currentTemp: 41,        // Critical zone (red)
+      minTemp: 22,
+      maxTemp: 40,
+      unit: 'celsius'
+    },
+    {
+      rackName: 'Rack 10',
+      currentTemp: 21,        // Safe zone (green)
+      minTemp: 16,
+      maxTemp: 30,
+      unit: 'celsius'
     }
   ];
 
@@ -89,9 +124,49 @@ export class App implements OnInit, OnDestroy {
     return this.serverData[this.featuredServerIndex()];
   }
 
-  // Get the smaller cards (all except the featured one)
+  // Get the smaller cards (all except the featured one) with pagination
   get smallCards(): ServerTemperatureData[] {
-    return this.serverData.filter((_, index) => index !== this.featuredServerIndex());
+    const allSmallCards = this.serverData.filter((_, index) => index !== this.featuredServerIndex());
+    const startIndex = this.currentPage() * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    return allSmallCards.slice(startIndex, endIndex);
+  }
+
+  // Get total number of pages for pagination
+  get totalPages(): number {
+    const allSmallCards = this.serverData.filter((_, index) => index !== this.featuredServerIndex());
+    return Math.ceil(allSmallCards.length / this.itemsPerPage);
+  }
+
+  // Navigate to next page
+  nextPage(): void {
+    const maxPage = this.totalPages - 1;
+    if (this.currentPage() < maxPage) {
+      this.currentPage.set(this.currentPage() + 1);
+    }
+  }
+
+  // Navigate to previous page
+  previousPage(): void {
+    if (this.currentPage() > 0) {
+      this.currentPage.set(this.currentPage() - 1);
+    }
+  }
+
+  // Go to specific page
+  goToPage(pageIndex: number): void {
+    if (pageIndex >= 0 && pageIndex < this.totalPages) {
+      this.currentPage.set(pageIndex);
+    }
+  }
+
+  // Check if there are more pages
+  get hasNextPage(): boolean {
+    return this.currentPage() < this.totalPages - 1;
+  }
+
+  get hasPreviousPage(): boolean {
+    return this.currentPage() > 0;
   }
 
   // Track function for better change detection

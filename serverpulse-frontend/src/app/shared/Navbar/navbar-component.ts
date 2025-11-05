@@ -70,7 +70,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     const parts = formattedDate.split(', ');
     if (parts.length === 2) {
       // Add more spaces between month and day, and spaces between all characters in year
-      const monthDayWithExtraSpace = parts[0].replace(' ', '         '); // 9 spaces between Nov and 4
+      const monthDayWithExtraSpace = parts[0].replace(' ', '                '); // 16 spaces between Nov and 5
       const monthDaySpaced = monthDayWithExtraSpace.split('').join(' ');
       const yearSpaced = parts[1].split('').join(' ');
       return `${monthDaySpaced} , ${yearSpaced}`;

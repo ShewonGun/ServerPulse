@@ -56,11 +56,17 @@
       align-items: center;
 
       .time {
-        font-size: 16px;
-        font-weight: 500;
-        color: #ffffff;
-        letter-spacing: 0.5px;
-        min-width: 60px;
+        font-size: 18px;
+        font-weight: 400;
+        color: #00ff00;
+        font-family: 'Courier New', monospace;
+        letter-spacing: 2px;
+        background: #000000;
+        padding: 4px 8px;
+        border-radius: 3px;
+        border: 1px solid #333;
+        min-width: 80px;
+        text-align: center;
       }
 
       .date {

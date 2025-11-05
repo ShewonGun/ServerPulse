@@ -62,9 +62,16 @@
   .dashboard-layout {
     display: grid;
     grid-template-columns: 1fr 1.5fr;
+    grid-template-rows: 1fr auto;
     gap: 1.5rem;
     min-height: calc(100vh - 120px);
     padding: 0;
+  }
+
+  .right-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
   }
 
   .featured-section {
@@ -90,7 +97,7 @@
     overflow: visible;
     height: fit-content;
     margin-top: -1rem;
-    padding-bottom: 5rem;
+    padding-bottom: 1rem;
   }
 
   .small-card {
@@ -189,6 +196,96 @@
       padding: 1rem;
     }
   }
+
+  /* Pagination Styles */
+  .pagination-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 0;
+    padding: 0.5rem;
+  }
+
+  .pagination-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+
+  .pagination-btn:hover:not(:disabled) {
+    background: rgba(0, 255, 136, 0.2);
+    border-color: #00ff88;
+    transform: scale(1.1);
+  }
+
+  .pagination-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  .page-indicators {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .page-indicator {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+
+  .page-indicator:hover {
+    background: rgba(0, 255, 136, 0.2);
+    border-color: #00ff88;
+  }
+
+  .page-indicator.active {
+    background: linear-gradient(135deg, #00ff88 0%, #0088ff 100%);
+    border-color: #00ff88;
+    color: #000000;
+    font-weight: 600;
+  }
+
+  @media screen and (max-width: 768px) {
+    .pagination-controls {
+      gap: 0.5rem;
+      margin-top: 1rem;
+      padding: 0.5rem;
+    }
+
+    .pagination-btn {
+      width: 36px;
+      height: 36px;
+      font-size: 16px;
+    }
+
+    .page-indicator {
+      width: 28px;
+      height: 28px;
+      font-size: 12px;
+    }
+  }
 </style>
 
 <div class="app-container">
@@ -204,11 +301,44 @@
         </div>
       </div>
 
-      <!-- Small Cards Grid -->
-      <div class="small-cards-section">
-        @for (server of smallCards; track trackByServerName($index, server)) {
-          <div class="small-card">
-            <app-server-card [data]="server" [showChart]="false"></app-server-card>
+      <!-- Right Section: Small Cards + Pagination -->
+      <div class="right-section">
+        <!-- Small Cards Grid -->
+        <div class="small-cards-section">
+          @for (server of smallCards; track trackByServerName($index, server)) {
+            <div class="small-card">
+              <app-server-card [data]="server" [showChart]="false"></app-server-card>
+            </div>
+          }
+        </div>
+
+        <!-- Pagination Controls -->
+        @if (totalPages > 1) {
+          <div class="pagination-controls">
+            <button 
+              class="pagination-btn prev" 
+              [disabled]="!hasPreviousPage"
+              (click)="previousPage()">
+              ‹
+            </button>
+            
+            <div class="page-indicators">
+              @for (page of Array(totalPages).fill(0); track $index; let i = $index) {
+                <button 
+                  class="page-indicator"
+                  [class.active]="currentPage() === i"
+                  (click)="goToPage(i)">
+                  {{ i + 1 }}
+                </button>
+              }
+            </div>
+            
+            <button 
+              class="pagination-btn next" 
+              [disabled]="!hasNextPage"
+              (click)="nextPage()">
+              ›
+            </button>
           </div>
         }
       </div>
