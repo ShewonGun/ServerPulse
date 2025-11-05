@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { interval, Subscription } from 'rxjs';
 
@@ -18,6 +18,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
   
   private timeSubscription?: Subscription;
 
+  constructor(private cdr: ChangeDetectorRef) {}
+
   ngOnInit(): void {
     // Initialize time immediately
     this.updateDateTime();
@@ -25,6 +27,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     // Update time every second
     this.timeSubscription = interval(1000).subscribe(() => {
       this.updateDateTime();
+      this.cdr.detectChanges(); // Manually trigger change detection
     });
   }
 
