@@ -1,0 +1,224 @@
+.dashboard-container {
+  width: 100%;
+  height: 100%;
+}
+
+.dashboard-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  grid-template-rows: 1fr auto;
+  gap: 1.5rem;
+  min-height: calc(100vh - 120px);
+  padding: 0;
+}
+
+.right-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.featured-section {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.featured-card {
+  width: 100%;
+  max-width: 450px;
+  transform: scale(0.95);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.small-cards-section {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  align-content: start;
+  overflow: visible;
+  height: fit-content;
+  margin-top: -1rem;
+  padding-bottom: 1rem;
+}
+
+.small-card {
+  transform: scale(0.65);
+  transition: all 0.3s ease;
+  opacity: 0.9;
+  margin: -3rem -3rem -5rem -3rem;
+}
+
+.small-card:hover {
+  transform: scale(0.7);
+  opacity: 1;
+}
+
+/* Pagination Styles */
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 1rem;
+  padding: 1rem;
+}
+
+.pagination-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: 600;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background: rgba(0, 255, 136, 0.15);
+  border-color: rgba(0, 255, 136, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 255, 136, 0.2);
+}
+
+.pagination-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.page-indicators {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.page-indicator {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.page-indicator:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 12px rgba(255, 255, 255, 0.1);
+}
+
+.page-indicator.active {
+  background: linear-gradient(135deg, #00ff88 0%, #0088ff 100%);
+  border-color: transparent;
+  color: #000000;
+  font-weight: 600;
+  box-shadow: 0 4px 16px rgba(0, 255, 136, 0.3);
+}
+
+// Responsive Design
+@media screen and (max-width: 1200px) {
+  .dashboard-layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    min-height: calc(100vh - 110px);
+  }
+  
+  .featured-section {
+    margin-top: 0;
+    align-items: flex-start;
+    padding-top: 0;
+  }
+  
+  .small-cards-section {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    margin-top: -1rem;
+    padding-bottom: 4.5rem;
+    overflow: visible;
+  }
+  
+  .featured-card {
+    transform: scale(1);
+  }
+  
+  .small-card {
+    transform: scale(0.7);
+    margin: -2.5rem -2.5rem -4.5rem -2.5rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .dashboard-layout {
+    min-height: calc(100vh - 100px);
+    padding: 0;
+  }
+  
+  .featured-section {
+    margin-top: 0;
+    align-items: flex-start;
+    padding-top: 0;
+  }
+  
+  .small-cards-section {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    margin-top: -1rem;
+    padding-bottom: 4rem;
+    overflow: visible;
+  }
+  
+  .featured-card {
+    transform: scale(0.85);
+    max-width: 400px;
+  }
+  
+  .small-card {
+    transform: scale(0.6);
+    margin: -2rem -2rem -4rem -2rem;
+  }
+
+  .pagination-controls {
+    gap: 1rem;
+    margin-top: 0.75rem;
+    padding: 0.75rem;
+  }
+
+  .pagination-btn {
+    width: 38px;
+    height: 38px;
+    font-size: 18px;
+    border-radius: 10px;
+  }
+
+  .page-indicators {
+    gap: 0.5rem;
+  }
+
+  .page-indicator {
+    width: 30px;
+    height: 30px;
+    font-size: 12px;
+    border-radius: 6px;
+  }
+}

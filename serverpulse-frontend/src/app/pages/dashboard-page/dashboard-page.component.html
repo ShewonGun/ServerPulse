@@ -1,0 +1,52 @@
+<div class="dashboard-container">
+  <div class="dashboard-layout">
+    <!-- Featured Card (Large) -->
+    <div class="featured-section">
+      <div class="featured-card">
+        <app-server-card [data]="featuredServer" [showChart]="true"></app-server-card>
+      </div>
+    </div>
+
+    <!-- Right Section: Small Cards + Pagination -->
+    <div class="right-section">
+      <!-- Small Cards Grid -->
+      <div class="small-cards-section">
+        @for (server of smallCards; track trackByServerName($index, server)) {
+          <div class="small-card">
+            <app-server-card [data]="server" [showChart]="false"></app-server-card>
+          </div>
+        }
+      </div>
+
+      <!-- Pagination Controls -->
+      @if (totalPages > 1) {
+        <div class="pagination-controls">
+          <button 
+            class="pagination-btn prev" 
+            [disabled]="!hasPreviousPage"
+            (click)="previousPage()">
+            ‹
+          </button>
+          
+          <div class="page-indicators">
+            @for (page of Array(totalPages).fill(0); track $index; let i = $index) {
+              <button 
+                class="page-indicator"
+                [class.active]="currentPage() === i"
+                (click)="goToPage(i)">
+                {{ i + 1 }}
+              </button>
+            }
+          </div>
+          
+          <button 
+            class="pagination-btn next" 
+            [disabled]="!hasNextPage"
+            (click)="nextPage()">
+            ›
+          </button>
+        </div>
+      }
+    </div>
+  </div>
+</div>
