@@ -12,6 +12,9 @@ import { interval, Subscription } from 'rxjs';
 export class NavbarComponent implements OnInit, OnDestroy {
   currentTime: string = '';
   currentDate: string = '';
+  currentDay: string = '';
+  currentMonth: string = '';
+  currentYear: string = '';
   
   private timeSubscription?: Subscription;
 
@@ -40,7 +43,12 @@ export class NavbarComponent implements OnInit, OnDestroy {
     // Format time as HH:MM:SS
     this.currentTime = this.formatTime(now);
     
-    // Format date as "Day, Month DD, YYYY"
+    // Format date components for digital display
+    this.currentDay = now.getDate().toString().padStart(2, '0');
+    this.currentMonth = now.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
+    this.currentYear = now.getFullYear().toString().slice(-2); // Last 2 digits of year
+    
+    // Keep the original formatted date for backup
     this.currentDate = this.formatDate(now);
   }
 

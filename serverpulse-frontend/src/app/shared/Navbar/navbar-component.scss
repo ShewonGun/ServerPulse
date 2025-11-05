@@ -50,30 +50,88 @@
     align-items: center;
     gap: 24px;
 
-    .time-display,
-    .date-display {
-      display: flex;
-      align-items: center;
-
-      .time {
-        font-size: 18px;
-        font-weight: 400;
-        color: #00ff00;
-        font-family: 'Courier New', monospace;
-        letter-spacing: 2px;
-        background: #000000;
-        padding: 4px 8px;
-        border-radius: 3px;
-        border: 1px solid #333;
-        min-width: 80px;
-        text-align: center;
+    // Time Widget Styles - Digital Clock View
+    .time-widget {
+      background: #000000;
+      border: 2px solid #333333;
+      border-radius: 6px;
+      padding: 8px 12px;
+      box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        0 2px 8px rgba(0, 0, 0, 0.5);
+      text-align: center;
+      position: relative;
+      
+      // Digital display glow effect
+      &::before {
+        content: '';
+        position: absolute;
+        inset: 2px;
+        background: radial-gradient(ellipse at center, rgba(0, 255, 0, 0.05) 0%, transparent 70%);
+        border-radius: 4px;
+        pointer-events: none;
       }
 
-      .date {
+      .time-label {
+        font-size: 8px;
+        font-weight: 600;
+        color: #00ff00;
+        letter-spacing: 1px;
+        margin-bottom: 2px;
+        text-shadow: 0 0 4px rgba(0, 255, 0, 0.5);
+      }
+
+      .time-value {
+        font-size: 18px;
+        font-weight: 700;
+        color: #00ff00;
+        font-family: 'Courier New', 'Monaco', 'Lucida Console', monospace;
+        letter-spacing: 2px;
+        text-shadow: 0 0 8px rgba(0, 255, 0, 0.6);
+        filter: brightness(1.1);
+      }
+    }
+
+    // Date Widget Styles - Digital Display View
+    .date-widget {
+      background: #000000;
+      border: 2px solid #333333;
+      border-radius: 6px;
+      padding: 8px 12px;
+      box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        0 2px 8px rgba(0, 0, 0, 0.5);
+      text-align: center;
+      position: relative;
+      
+      // Digital display glow effect
+      &::before {
+        content: '';
+        position: absolute;
+        inset: 2px;
+        background: radial-gradient(ellipse at center, rgba(0, 136, 255, 0.05) 0%, transparent 70%);
+        border-radius: 4px;
+        pointer-events: none;
+      }
+
+      .date-label {
+        font-size: 8px;
+        font-weight: 600;
+        color: #0088ff;
+        letter-spacing: 1px;
+        margin-bottom: 2px;
+        text-shadow: 0 0 4px rgba(0, 136, 255, 0.5);
+      }
+
+      .date-value {
         font-size: 16px;
-        font-weight: 500;
-        color: #ffffff;
-        letter-spacing: 0.5px;
+        font-weight: 700;
+        color: #0088ff;
+        font-family: 'Courier New', 'Monaco', 'Lucida Console', monospace;
+        text-align: center;
+        letter-spacing: 1px;
+        text-shadow: 0 0 8px rgba(0, 136, 255, 0.6);
+        filter: brightness(1.1);
         white-space: nowrap;
       }
     }
@@ -101,19 +159,32 @@
 
   .navbar-right {
     .datetime-container {
-      gap: 16px;
+      gap: 12px;
 
-      .time {
-        font-size: 18px;
-        min-width: 50px;
+      .time-widget {
+        padding: 6px 10px;
+
+        .time-label {
+          font-size: 7px;
+        }
+
+        .time-value {
+          font-size: 16px;
+          letter-spacing: 1.5px;
+        }
       }
 
-      .date {
-        font-size: 14px;
-      }
+      .date-widget {
+        padding: 6px 10px;
 
-      .time-display {
-        padding-right: 16px;
+        .date-label {
+          font-size: 7px;
+        }
+
+        .date-value {
+          font-size: 14px;
+          letter-spacing: 0.5px;
+        }
       }
     }
   }
@@ -138,24 +209,36 @@
 
   .navbar-right {
     .datetime-container {
-      flex-direction: column;
+      flex-direction: row;
       gap: 8px;
-      align-items: flex-end;
+      align-items: center;
 
-      .time {
-        font-size: 16px;
-        min-width: 40px;
+      .time-widget {
+        padding: 5px 8px;
+
+        .time-label {
+          font-size: 6px;
+          margin-bottom: 1px;
+        }
+
+        .time-value {
+          font-size: 14px;
+          letter-spacing: 1px;
+        }
       }
 
-      .date {
-        font-size: 12px;
-      }
+      .date-widget {
+        padding: 5px 8px;
 
-      .time-display {
-        padding-right: 0;
-        border-right: none;
-        border-bottom: 1px solid #333;
-        padding-bottom: 8px;
+        .date-label {
+          font-size: 6px;
+          margin-bottom: 1px;
+        }
+
+        .date-value {
+          font-size: 12px;
+          letter-spacing: 0.5px;
+        }
       }
     }
   }

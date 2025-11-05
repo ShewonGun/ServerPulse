@@ -10,11 +10,13 @@
     <!-- Right Side - Date and Time -->
     <div class="navbar-right">
       <div class="datetime-container">
-        <div class="time-display">
-          <span class="time">{{ currentTime }}</span>
+        <div class="time-widget">
+          <div class="time-label">TIME</div>
+          <div class="time-value">{{ currentTime }}</div>
         </div>
-        <div class="date-display">
-          <span class="date">{{ currentDate }}</span>
+        <div class="date-widget">
+          <div class="date-label">DATE</div>
+          <div class="date-value">{{ currentMonth }} {{ currentDay }},{{ currentYear }}</div>
         </div>
       </div>
     </div>
