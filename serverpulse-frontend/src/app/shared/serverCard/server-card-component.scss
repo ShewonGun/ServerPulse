@@ -256,22 +256,95 @@
 }
 
 @media (max-width: 480px) {
+  .server-card {
+    padding: 20px;
+    max-width: 100%;
+  }
+
+  .card-header {
+    margin-bottom: 24px;
+
+    .rack-name {
+      font-size: 24px;
+    }
+
+    .status-indicator {
+      width: 14px;
+      height: 14px;
+    }
+  }
+
   .gauge-container {
-    width: 200px;
-    height: 200px;
+    width: 100%;
+    max-width: 280px;
+    height: 180px;
 
     .temperature-display {
       .current-temp {
         font-size: 48px;
       }
+
+      .temp-unit {
+        font-size: 12px;
+      }
     }
   }
 
   .stats-container {
+    gap: 12px;
+    margin-top: 16px;
+
     .stat-item {
       .stat-value {
         font-size: 24px;
       }
+
+      .stat-label {
+        font-size: 10px;
+      }
+    }
+  }
+
+  .trend-chart-container {
+    margin-top: 16px;
+    padding-top: 12px;
+
+    .trend-chart-header {
+      margin-bottom: 8px;
+
+      .trend-label {
+        font-size: 10px;
+      }
+    }
+
+    .trend-chart-wrapper {
+      height: 120px;
+      padding: 8px;
+    }
+  }
+}
+
+// Tablet breakpoint for better medium-screen support
+@media (max-width: 768px) and (min-width: 481px) {
+  .server-card {
+    padding: 24px;
+    max-width: 100%;
+  }
+
+  .card-header {
+    .rack-name {
+      font-size: 28px;
+    }
+  }
+
+  .gauge-container {
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .trend-chart-container {
+    .trend-chart-wrapper {
+      height: 110px;
     }
   }
 }

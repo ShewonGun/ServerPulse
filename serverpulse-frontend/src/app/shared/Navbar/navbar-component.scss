@@ -27,13 +27,35 @@
   .logo-container {
     display: flex;
     align-items: center;
+    position: relative;
 
     .logo-text {
-      font-size: 28px;
-      font-weight: 700;
-      color: #ffffff;
+      font-size: 32px;
+      font-weight: 800;
       margin: 0;
-      letter-spacing: -0.5px;
+      letter-spacing: 1px;
+      background: linear-gradient(135deg, #00ff41 0%, #ffeb3b 50%, #ff3b3b 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      position: relative;
+      text-transform: uppercase;
+      filter: drop-shadow(0 0 4px rgba(0, 255, 65, 0.15));
+      animation: logoGlow 3s ease-in-out infinite;
+      
+      // Underline accent
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 40%;
+        height: 3px;
+        background: linear-gradient(90deg, #00ff41 0%, #ffeb3b 50%, #ff3b3b 100%);
+        border-radius: 2px;
+        box-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+        animation: underlineGlow 2s ease-in-out infinite;
+      }
     }
   }
 }
@@ -109,7 +131,7 @@
         content: '';
         position: absolute;
         inset: 2px;
-        background: radial-gradient(ellipse at center, rgba(0, 136, 255, 0.05) 0%, transparent 70%);
+        background: radial-gradient(ellipse at center, rgba(255, 235, 59, 0.05) 0%, transparent 70%);
         border-radius: 4px;
         pointer-events: none;
       }
@@ -117,20 +139,20 @@
       .date-label {
         font-size: 8px;
         font-weight: 600;
-        color: #0088ff;
+        color: #ffeb3b;
         letter-spacing: 1px;
         margin-bottom: 2px;
-        text-shadow: 0 0 4px rgba(0, 136, 255, 0.5);
+        text-shadow: 0 0 4px rgba(255, 235, 59, 0.5);
       }
 
       .date-value {
         font-size: 16px;
         font-weight: 700;
-        color: #0088ff;
+        color: #ffeb3b;
         font-family: 'Courier New', 'Monaco', 'Lucida Console', monospace;
         text-align: center;
         letter-spacing: 1px;
-        text-shadow: 0 0 8px rgba(0, 136, 255, 0.6);
+        text-shadow: 0 0 8px rgba(255, 235, 59, 0.6);
         filter: brightness(1.1);
         white-space: nowrap;
       }
@@ -140,6 +162,27 @@
       padding-right: 24px;
       border-right: 1px solid #333;
     }
+  }
+}
+
+// Logo animations
+@keyframes logoGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 4px rgba(0, 255, 65, 0.15));
+  }
+  50% {
+    filter: drop-shadow(0 0 6px rgba(255, 235, 59, 0.2));
+  }
+}
+
+@keyframes underlineGlow {
+  0%, 100% {
+    width: 80%;
+    box-shadow: 0 0 6px rgba(0, 255, 65, 0.3);
+  }
+  50% {
+    width: 100%;
+    box-shadow: 0 0 8px rgba(255, 235, 59, 0.4);
   }
 }
 
@@ -197,6 +240,7 @@
 
   .navbar-container {
     padding: 0 16px;
+    justify-content: center; // Center the logo when date/time are hidden
   }
 
   .navbar-left {
@@ -208,39 +252,7 @@
   }
 
   .navbar-right {
-    .datetime-container {
-      flex-direction: row;
-      gap: 8px;
-      align-items: center;
-
-      .time-widget {
-        padding: 5px 8px;
-
-        .time-label {
-          font-size: 6px;
-          margin-bottom: 1px;
-        }
-
-        .time-value {
-          font-size: 14px;
-          letter-spacing: 1px;
-        }
-      }
-
-      .date-widget {
-        padding: 5px 8px;
-
-        .date-label {
-          font-size: 6px;
-          margin-bottom: 1px;
-        }
-
-        .date-value {
-          font-size: 12px;
-          letter-spacing: 0.5px;
-        }
-      }
-    }
+    display: none; // Hide date and time on mobile
   }
 }
 
@@ -248,18 +260,7 @@
   .navbar-left {
     .logo-container {
       .logo-text {
-        font-size: 18px;
-      }
-    }
-  }
-
-  .navbar-right {
-    .datetime-container {
-      .date {
-        font-size: 11px;
-        max-width: 150px;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        font-size: 16px;
       }
     }
   }
