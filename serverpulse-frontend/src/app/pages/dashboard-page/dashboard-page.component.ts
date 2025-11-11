@@ -16,6 +16,9 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
   currentPage = signal(0);
   readonly itemsPerPage = 6;
   
+  // Mobile view detection
+  isMobileView = signal(false);
+  
   // Array constructor for template
   protected readonly Array = Array;
   
@@ -97,14 +100,39 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
   ];
 
   ngOnInit(): void {
-    // Start auto-rotation every 5 seconds
-    this.startRotation();
+    // Check if mobile view
+    this.checkMobileView();
+    
+    // Listen for window resize
+    window.addEventListener('resize', () => this.checkMobileView());
+    
+    // Start auto-rotation every 5 seconds (only if not mobile)
+    if (!this.isMobileView()) {
+      this.startRotation();
+    }
   }
 
   ngOnDestroy(): void {
     // Clear interval on component destruction
     if (this.rotationInterval) {
       clearInterval(this.rotationInterval);
+    }
+    
+    // Remove resize listener
+    window.removeEventListener('resize', () => this.checkMobileView());
+  }
+
+  private checkMobileView(): void {
+    this.isMobileView.set(window.innerWidth <= 768);
+    
+    // Stop or start rotation based on view
+    if (this.isMobileView()) {
+      if (this.rotationInterval) {
+        clearInterval(this.rotationInterval);
+        this.rotationInterval = undefined;
+      }
+    } else if (!this.rotationInterval) {
+      this.startRotation();
     }
   }
 
@@ -123,6 +151,11 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
 
   // Get the smaller cards (all except the featured one) with pagination
   get smallCards(): ServerTemperatureData[] {
+    // In mobile view, show all cards
+    if (this.isMobileView()) {
+      return this.serverData;
+    }
+    
     const allSmallCards = this.serverData.filter((_, index) => index !== this.featuredServerIndex());
     const startIndex = this.currentPage() * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;

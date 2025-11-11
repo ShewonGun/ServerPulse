@@ -44,11 +44,13 @@ export class ServerCardComponent implements OnInit, OnDestroy, AfterViewInit, On
     }
     
     if (isPlatformBrowser(this.platformId)) {
-      // For small cards (no chart), set immediately for faster loading
-      if (!this.showChart) {
-        this.gaugeProgress = this.gaugePercentage;
-      } else {
-        // For featured card (with chart), animate from 0
+      // Always set gauge progress immediately to ensure it displays
+      this.gaugeProgress = this.gaugePercentage;
+      
+      // Only animate for featured cards in desktop view
+      // Mobile view and small cards get immediate display
+      if (this.showChart && window.innerWidth > 768) {
+        // Reset and animate for featured card on desktop
         this.gaugeProgress = 0;
         setTimeout(() => this.animateGauge(), 100);
       }
@@ -98,15 +100,22 @@ export class ServerCardComponent implements OnInit, OnDestroy, AfterViewInit, On
       }
     }
 
-    // When showChart changes from false to true, create the chart
-    if (changes['showChart'] && changes['showChart'].currentValue === true && 
-        changes['showChart'].previousValue === false) {
-      // Delay chart creation slightly to ensure DOM is ready
-      setTimeout(() => {
-        if (isPlatformBrowser(this.platformId) && this.trendChart) {
-          this.createTrendChart();
+    // When showChart changes from false to true, ensure gauge is set and create the chart
+    if (changes['showChart']) {
+      if (isPlatformBrowser(this.platformId)) {
+        // Ensure gauge progress is set when showChart changes
+        this.gaugeProgress = this.gaugePercentage;
+        
+        // If chart is now shown, create it
+        if (changes['showChart'].currentValue === true) {
+          // Delay chart creation slightly to ensure DOM is ready
+          setTimeout(() => {
+            if (this.trendChart) {
+              this.createTrendChart();
+            }
+          }, 100);
         }
-      }, 100);
+      }
     }
   }
 
