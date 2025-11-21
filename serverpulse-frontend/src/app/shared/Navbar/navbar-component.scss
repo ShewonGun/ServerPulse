@@ -40,7 +40,7 @@
       -webkit-text-fill-color: transparent;
       position: relative;
       text-transform: uppercase;
-      filter: drop-shadow(0 0 4px rgba(0, 255, 65, 0.15));
+      filter: drop-shadow(0 0 2px rgba(0, 255, 65, 0.1));
       animation: logoGlow 3s ease-in-out infinite;
       
       // Underline accent
@@ -53,16 +53,50 @@
         height: 3px;
         background: linear-gradient(90deg, #00ff41 0%, #ffeb3b 50%, #ff3b3b 100%);
         border-radius: 2px;
-        box-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+        box-shadow: 0 0 4px rgba(0, 255, 65, 0.2);
         animation: underlineGlow 2s ease-in-out infinite;
       }
     }
   }
 }
 
-// Right Side - Date and Time
+// Right Side - Navigation and Date/Time
 .navbar-right {
   display: flex;
+  align-items: center;
+  gap: 2rem;
+
+  .navbar-nav {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+
+    .nav-link {
+      position: relative;
+      color: rgba(255, 255, 255, 0.6);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 8px 20px;
+      border-radius: 20px;
+      transition: all 0.3s ease;
+      letter-spacing: 0.3px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid transparent;
+      
+      &:hover {
+        color: rgba(255, 255, 255, 0.9);
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(255, 255, 255, 0.1);
+      }
+      
+      &.active {
+        color: #00ff41;
+        background: rgba(0, 255, 65, 0.08);
+        border-color: rgba(0, 255, 65, 0.2);
+      }
+    }
+  }
   align-items: center;
   width: 60%; // Match the 1.5fr column proportion (1.5/2.5 = 0.6)
   justify-content: flex-end;
@@ -168,21 +202,21 @@
 // Logo animations
 @keyframes logoGlow {
   0%, 100% {
-    filter: drop-shadow(0 0 4px rgba(0, 255, 65, 0.15));
+    filter: drop-shadow(0 0 2px rgba(0, 255, 65, 0.1));
   }
   50% {
-    filter: drop-shadow(0 0 6px rgba(255, 235, 59, 0.2));
+    filter: drop-shadow(0 0 3px rgba(255, 235, 59, 0.15));
   }
 }
 
 @keyframes underlineGlow {
   0%, 100% {
     width: 80%;
-    box-shadow: 0 0 6px rgba(0, 255, 65, 0.3);
+    box-shadow: 0 0 4px rgba(0, 255, 65, 0.2);
   }
   50% {
     width: 100%;
-    box-shadow: 0 0 8px rgba(255, 235, 59, 0.4);
+    box-shadow: 0 0 5px rgba(255, 235, 59, 0.25);
   }
 }
 
@@ -201,6 +235,17 @@
   }
 
   .navbar-right {
+    gap: 1.5rem;
+
+    .navbar-nav {
+      gap: 0.25rem;
+      
+      .nav-link {
+        font-size: 12px;
+        padding: 6px 16px;
+      }
+    }
+
     .datetime-container {
       gap: 12px;
 
@@ -240,7 +285,7 @@
 
   .navbar-container {
     padding: 0 16px;
-    justify-content: center; // Center the logo when date/time are hidden
+    justify-content: space-between;
   }
 
   .navbar-left {
@@ -252,7 +297,16 @@
   }
 
   .navbar-right {
-    display: none; // Hide date and time on mobile
+    .navbar-nav {
+      .nav-link {
+        font-size: 11px;
+        padding: 5px 12px;
+      }
+    }
+
+    .datetime-container {
+      display: none; // Hide date and time on mobile
+    }
   }
 }
 

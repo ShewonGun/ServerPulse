@@ -1,0 +1,13 @@
+<div class="details-page">
+  <div class="racks-grid">
+    @for (rack of racks(); track rack.rackId) {
+      <app-rack-card
+        [rackName]="rack.rackName"
+        [rackId]="rack.rackId"
+        [minValue]="rack.minValue"
+        [maxValue]="rack.maxValue"
+        [isActive]="rack.isActive"
+      ></app-rack-card>
+    }
+  </div>
+</div>

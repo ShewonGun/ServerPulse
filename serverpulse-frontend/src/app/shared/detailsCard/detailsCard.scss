@@ -1,0 +1,198 @@
+// rack-card.component.scss
+.rack-card {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 18px;
+  width: 100%;
+  color: white;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  transition: all 0.3s ease;
+
+  &.disabled {
+    opacity: 0.4;
+    filter: grayscale(1);
+
+    .status-indicator {
+      background: #666 !important;
+      box-shadow: none !important;
+    }
+  }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+
+    &:hover .action-icons .hover-buttons {
+      opacity: 1;
+      transform: translateX(0);
+      pointer-events: auto;
+    }
+
+    .rack-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      .status-indicator {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #666;
+        transition: all 0.3s ease;
+
+        &.active {
+          background: #00ff00;
+          box-shadow: 0 0 8px #00ff00;
+        }
+      }
+
+      .rack-name {
+        font-size: 16px;
+        font-weight: 700;
+        color: white;
+      }
+
+      .rack-id {
+        font-size: 13px;
+        color: #888;
+      }
+    }
+
+    .action-icons {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      position: relative;
+
+      .hover-buttons {
+        display: flex;
+        gap: 8px;
+        opacity: 0;
+        transform: translateX(10px);
+        transition: all 0.3s ease;
+        pointer-events: none;
+      }
+
+      .checkbox-container {
+        display: inline-block;
+        position: relative;
+        cursor: pointer;
+        user-select: none;
+        width: 16px;
+        height: 16px;
+
+        input {
+          position: absolute;
+          opacity: 0;
+          cursor: pointer;
+          height: 0;
+          width: 0;
+
+          &:checked ~ .checkmark {
+            background-color: #00ff00;
+            border-color: #00ff00;
+
+            &:after {
+              display: block;
+            }
+          }
+        }
+
+        .checkmark {
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 16px;
+          width: 16px;
+          background-color: transparent;
+          border: 2px solid #666;
+          border-radius: 3px;
+          transition: all 0.3s ease;
+
+          &:after {
+            content: '';
+            position: absolute;
+            display: none;
+            left: 4px;
+            top: 1px;
+            width: 4px;
+            height: 8px;
+            border: solid #000;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+          }
+        }
+
+        &:hover .checkmark {
+          border-color: #999;
+        }
+      }
+
+      .icon-btn {
+        background: none;
+        border: none;
+        color: #999;
+        cursor: pointer;
+        padding: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: color 0.2s ease;
+
+        &:hover {
+          color: white;
+        }
+
+        &.delete-btn:hover {
+          color: #ff3b3b;
+        }
+
+        &:active {
+          transform: scale(0.95);
+        }
+
+        svg {
+          width: 16px;
+          height: 16px;
+        }
+      }
+    }
+  }
+
+  .card-content {
+    display: flex;
+    gap: 16px;
+
+    .value-box {
+      flex: 1;
+      background: #0a0a0a;
+      border: 1px solid #222;
+      border-radius: 8px;
+      padding: 20px 16px;
+      text-align: center;
+      transition: transform 0.2s ease;
+
+      &:hover {
+        transform: translateY(-2px);
+      }
+
+      .label {
+        font-size: 13px;
+        color: #888;
+        margin-bottom: 8px;
+        font-weight: 500;
+        text-transform: capitalize;
+      }
+
+      .value {
+        font-size: 28px;
+        font-weight: 700;
+        color: white;
+        line-height: 1;
+      }
+    }
+  }
+}

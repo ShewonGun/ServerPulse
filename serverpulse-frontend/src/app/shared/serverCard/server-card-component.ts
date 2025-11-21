@@ -91,7 +91,6 @@ export class ServerCardComponent implements OnInit, OnDestroy, AfterViewInit, On
       
       // Recreate chart with new data if chart is shown
       if (this.showChart && this.trendChart) {
-        console.log(`Recreating chart for ${changes['data'].currentValue.rackName}`);
         setTimeout(() => {
           if (isPlatformBrowser(this.platformId)) {
             this.createTrendChart();
@@ -258,12 +257,11 @@ export class ServerCardComponent implements OnInit, OnDestroy, AfterViewInit, On
   get strokeDashoffset(): number {
     const arcLength = 251.33; // Semicircle length (π * 80)
     
-    // Safety check: if gaugeProgress is undefined/null/NaN, use gaugePercentage directly
+    // Safety check: if gaugeProgress is invalid, use gaugePercentage directly
     let progress = this.gaugeProgress;
     if (progress === undefined || progress === null || isNaN(progress)) {
-      console.warn(`${this.data.rackName}: Invalid gaugeProgress (${progress}), using gaugePercentage (${this.gaugePercentage})`);
       progress = this.gaugePercentage;
-      this.gaugeProgress = progress; // Fix the invalid state
+      this.gaugeProgress = progress;
     }
     
     progress = Math.min(100, progress); // Cap at 100% for visual
@@ -286,8 +284,6 @@ export class ServerCardComponent implements OnInit, OnDestroy, AfterViewInit, On
     const targetPercentage = this.gaugePercentage;
     const duration = 300; // Fast animation for quick data changes
     const startTime = performance.now();
-
-    console.log(`Animating gauge from ${startPercentage}% to ${targetPercentage}% for ${this.data.rackName}`);
 
     const animate = (currentTime: number) => {
       const elapsed = currentTime - startTime;
@@ -333,7 +329,11 @@ export class ServerCardComponent implements OnInit, OnDestroy, AfterViewInit, On
 
     // Destroy existing chart if it exists
     if (this.chartInstance) {
-      this.chartInstance.destroy();
+      try {
+        this.chartInstance.destroy();
+      } catch (e) {
+        // Ignore errors during destruction
+      }
       this.chartInstance = null;
     }
 
@@ -342,7 +342,15 @@ export class ServerCardComponent implements OnInit, OnDestroy, AfterViewInit, On
       const { Chart, registerables } = await import('chart.js');
       Chart.register(...registerables);
 
-      const ctx = this.trendChart.nativeElement.getContext('2d');
+      const canvas = this.trendChart.nativeElement;
+      
+      // Get chart from canvas if it exists and destroy it
+      const existingChart = Chart.getChart(canvas);
+      if (existingChart) {
+        existingChart.destroy();
+      }
+      
+      const ctx = canvas.getContext('2d');
       if (!ctx) return;
 
       // Generate or use provided temperature history

@@ -1,5 +1,7 @@
-import { Component, signal, OnInit, OnDestroy } from '@angular/core';
-import { ServerCardComponent, ServerTemperatureData } from '../../shared/serverCard/server-card-component';
+import { Component, signal, OnInit, OnDestroy, PLATFORM_ID, Inject, computed } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { ServerCardComponent } from '../../shared/serverCard/server-card-component';
+import { ServerDataService, ServerTemperatureData } from '../../services/server-data.service';
 
 @Component({
   selector: 'app-dashboard-page',
@@ -24,139 +26,115 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
   
   // Auto-rotation interval
   private rotationInterval?: any;
-  
-  // Sample server data - Multiple servers for 3-column grid layout
-  serverData: ServerTemperatureData[] = [
-    {
-      rackName: 'Rack 01',
-      currentTemp: 22,        // Safe zone (green)
-      minTemp: 15,
-      maxTemp: 35,
-      unit: 'celsius'
-    },
-    {
-      rackName: 'Rack 02', 
-      currentTemp: 28,        // Warning zone (yellow) 
-      minTemp: 20,
-      maxTemp: 35,
-      unit: 'celsius'
-    },
-    {
-      rackName: 'Rack 03',
-      currentTemp: 42,        // Critical zone (red) - exceeded max
-      minTemp: 25,
-      maxTemp: 40,
-      unit: 'celsius'
-    },
-    {
-      rackName: 'Rack 04',
-      currentTemp: 19,        // Safe zone (green)
-      minTemp: 15,
-      maxTemp: 30,
-      unit: 'celsius'
-    },
-    {
-      rackName: 'Rack 05',
-      currentTemp: 33,        // Warning zone (yellow)
-      minTemp: 20,
-      maxTemp: 35,
-      unit: 'celsius'
-    },
-    {
-      rackName: 'Rack 06',
-      currentTemp: 38,        // Critical zone (red)
-      minTemp: 22,
-      maxTemp: 35,
-      unit: 'celsius'
-    },
-    {
-      rackName: 'Rack 07',
-      currentTemp: 25,        // Safe zone (green)
-      minTemp: 18,
-      maxTemp: 32,
-      unit: 'celsius'
-    },
-    {
-      rackName: 'Rack 08',
-      currentTemp: 35,        // Warning zone (yellow)
-      minTemp: 20,
-      maxTemp: 38,
-      unit: 'celsius'
-    },
-    {
-      rackName: 'Rack 09',
-      currentTemp: 41,        // Critical zone (red)
-      minTemp: 22,
-      maxTemp: 40,
-      unit: 'celsius'
-    },
-    {
-      rackName: 'Rack 10',
-      currentTemp: 21,        // Safe zone (green)
-      minTemp: 16,
-      maxTemp: 30,
-      unit: 'celsius'
-    }
-  ];
+
+  // Get server data from shared service (only active servers)
+  serverData = computed(() => this.serverDataService.serverData().filter(server => server.isActive !== false));
+
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private serverDataService: ServerDataService
+  ) {}
 
   ngOnInit(): void {
-    // Check if mobile view
-    this.checkMobileView();
-    
-    // Listen for window resize
-    window.addEventListener('resize', () => this.checkMobileView());
-    
-    // Start auto-rotation every 5 seconds (only if not mobile)
-    if (!this.isMobileView()) {
-      this.startRotation();
+    console.log('DashboardPage ngOnInit called');
+    // Only run in browser environment
+    if (isPlatformBrowser(this.platformId)) {
+      // Check if mobile view
+      this.checkMobileView();
+      
+      // Listen for window resize
+      window.addEventListener('resize', () => this.checkMobileView());
+      
+      // Start auto-rotation every 5 seconds (only if not mobile)
+      if (!this.isMobileView()) {
+        console.log('Starting rotation...');
+        this.startRotation();
+      }
     }
   }
 
   ngOnDestroy(): void {
-    // Clear interval on component destruction
-    if (this.rotationInterval) {
-      clearInterval(this.rotationInterval);
+    // Only clean up in browser environment
+    if (isPlatformBrowser(this.platformId)) {
+      // Clear interval on component destruction
+      if (this.rotationInterval) {
+        clearInterval(this.rotationInterval);
+      }
+      
+      // Remove resize listener
+      window.removeEventListener('resize', () => this.checkMobileView());
     }
-    
-    // Remove resize listener
-    window.removeEventListener('resize', () => this.checkMobileView());
   }
 
   private checkMobileView(): void {
-    this.isMobileView.set(window.innerWidth <= 768);
-    
-    // Stop or start rotation based on view
-    if (this.isMobileView()) {
-      if (this.rotationInterval) {
-        clearInterval(this.rotationInterval);
-        this.rotationInterval = undefined;
+    // Only check in browser environment
+    if (isPlatformBrowser(this.platformId)) {
+      const wasMobile = this.isMobileView();
+      const isMobile = window.innerWidth <= 768;
+      this.isMobileView.set(isMobile);
+      
+      // Only change rotation state if mobile view status actually changed
+      if (wasMobile !== isMobile) {
+        console.log('View changed from', wasMobile ? 'mobile' : 'desktop', 'to', isMobile ? 'mobile' : 'desktop');
+        
+        if (isMobile) {
+          // Switched to mobile - stop rotation
+          if (this.rotationInterval) {
+            console.log('Stopping rotation (mobile view)');
+            clearInterval(this.rotationInterval);
+            this.rotationInterval = undefined;
+          }
+        } else {
+          // Switched to desktop - start rotation
+          if (!this.rotationInterval) {
+            console.log('Starting rotation (desktop view)');
+            this.startRotation();
+          }
+        }
       }
-    } else if (!this.rotationInterval) {
-      this.startRotation();
     }
   }
 
   private startRotation(): void {
+    console.log('startRotation called, existing interval:', this.rotationInterval);
+    
+    // Clear any existing interval first to prevent duplicates
+    if (this.rotationInterval) {
+      clearInterval(this.rotationInterval);
+    }
+    
     this.rotationInterval = setInterval(() => {
-      const currentIndex = this.featuredServerIndex();
-      const nextIndex = (currentIndex + 1) % this.serverData.length;
+      // Get current index and calculate next
+      const data = this.serverData();
+      let nextIndex = this.featuredServerIndex() + 1;
+      
+      // Wrap around to 0 if we've reached the end
+      if (nextIndex >= data.length) {
+        nextIndex = 0;
+      }
+      
+      console.log('Rotation:', this.featuredServerIndex(), '→', nextIndex, 'Rack:', data[nextIndex].rackName);
       this.featuredServerIndex.set(nextIndex);
+      
+      // Reset to first page when featured card changes to avoid skipping cards
+      this.currentPage.set(0);
     }, 5000); // 5 seconds
   }
 
   // Get the currently featured server
   get featuredServer(): ServerTemperatureData {
-    return this.serverData[this.featuredServerIndex()];
+    return this.serverData()[this.featuredServerIndex()];
   }
 
   // Get the smaller cards (all except the featured one) with pagination
   get smallCards(): ServerTemperatureData[] {
+    const data = this.serverData();
     // In mobile view, show all cards
     if (this.isMobileView()) {
-      return this.serverData;
+      return data;
     }
     
-    const allSmallCards = this.serverData.filter((_, index) => index !== this.featuredServerIndex());
+    const allSmallCards = data.filter((_, index) => index !== this.featuredServerIndex());
     const startIndex = this.currentPage() * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
     return allSmallCards.slice(startIndex, endIndex);
@@ -164,7 +142,7 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
 
   // Get total number of pages for pagination
   get totalPages(): number {
-    const allSmallCards = this.serverData.filter((_, index) => index !== this.featuredServerIndex());
+    const allSmallCards = this.serverData().filter((_, index) => index !== this.featuredServerIndex());
     return Math.ceil(allSmallCards.length / this.itemsPerPage);
   }
 

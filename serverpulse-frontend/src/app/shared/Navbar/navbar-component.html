@@ -7,8 +7,16 @@
       </div>
     </div>
 
-    <!-- Right Side - Date and Time -->
+    <!-- Right Side - Navigation Links and Date/Time -->
     <div class="navbar-right">
+      <div class="navbar-nav">
+        <a routerLink="/" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+          Dashboard
+        </a>
+        <a routerLink="/details" class="nav-link" routerLinkActive="active">
+          Admin
+        </a>
+      </div>
       <div class="datetime-container">
         <div class="time-widget">
           <div class="time-label">TIME</div>

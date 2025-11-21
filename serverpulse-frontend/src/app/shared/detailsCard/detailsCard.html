@@ -1,0 +1,46 @@
+<!-- rack-card.component.html -->
+<div class="rack-card" [ngClass]="{'disabled': !isActive}">
+  <div class="card-header">
+    <div class="rack-info">
+      <span class="status-indicator" [ngClass]="{'active': isActive}"></span>
+      <span class="rack-name">{{ rackName }}</span>
+      <span class="rack-id">{{ rackId }}</span>
+    </div>
+    <div class="action-icons">
+      <div class="hover-buttons">
+        <button class="icon-btn edit-btn" (click)="onEdit()" title="Edit">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M2 11.5V14H4.5L11.8733 6.62662L9.37333 4.12662L2 11.5Z" stroke="currentColor" 
+                  stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12.5 5L11 3.5L12.5 2L14 3.5L12.5 5Z" stroke="currentColor" 
+                  stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <button class="icon-btn delete-btn" (click)="onDelete()" title="Delete">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M2 4H14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M5.5 4V2.5C5.5 2.22386 5.72386 2 6 2H10C10.2761 2 10.5 2.22386 10.5 2.5V4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M3.5 4L4 13.5C4 13.7761 4.22386 14 4.5 14H11.5C11.7761 14 12 13.7761 12 13.5L12.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M6.5 7V11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M9.5 7V11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+      <label class="checkbox-container">
+        <input type="checkbox" [(ngModel)]="isActive" (change)="onToggleActive()" />
+        <span class="checkmark"></span>
+      </label>
+    </div>
+  </div>
+  
+  <div class="card-content">
+    <div class="value-box">
+      <div class="label">Min</div>
+      <div class="value">{{ minValue }}</div>
+    </div>
+    <div class="value-box">
+      <div class="label">Max</div>
+      <div class="value">{{ maxValue }}</div>
+    </div>
+  </div>
+</div>
