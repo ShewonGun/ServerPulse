@@ -1,8 +1,8 @@
-<!-- add-sensor-form.component.html -->
+<!-- update-sensor-form.component.html -->
 <div class="modal-backdrop" (click)="onBackdropClick()">
   <div class="form-container" (click)="onModalClick($event)">
     <div class="form-card">
-      <h2 class="form-title">Add Sensor</h2>
+      <h2 class="form-title">Update Sensor</h2>
     
     <form (ngSubmit)="onSubmit()" #sensorForm="ngForm">
       <div class="form-group">
@@ -12,9 +12,8 @@
           id="sensorId"
           name="sensorId"
           class="form-input"
-          placeholder="Enter sensor ID"
           [(ngModel)]="sensorData.id"
-          required
+          disabled
         />
       </div>
 
@@ -76,7 +75,7 @@
           type="submit" 
           class="btn btn-submit" 
           [disabled]="!isFormValid()">
-          Add Sensor
+          Update Sensor
         </button>
       </div>
     </form>

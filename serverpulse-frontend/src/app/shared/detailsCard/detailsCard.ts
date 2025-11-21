@@ -1,5 +1,5 @@
 // rack-card.component.ts
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ServerDataService } from '../../services/server-data.service';
@@ -17,6 +17,8 @@ export class RackCardComponent {
   @Input() minValue: number = 22;
   @Input() maxValue: number = 30;
   @Input() isActive: boolean = true;
+  
+  @Output() editCard = new EventEmitter<{ rackId: string; rackName: string; minValue: number; maxValue: number }>();
 
   constructor(private serverDataService: ServerDataService) {}
 
@@ -27,6 +29,12 @@ export class RackCardComponent {
 
   onEdit(): void {
     console.log('Edit clicked');
+    this.editCard.emit({
+      rackId: this.rackId,
+      rackName: this.rackName,
+      minValue: this.minValue,
+      maxValue: this.maxValue
+    });
   }
 
   onDelete(): void {

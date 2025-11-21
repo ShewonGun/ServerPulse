@@ -7,6 +7,7 @@
         [minValue]="rack.minValue"
         [maxValue]="rack.maxValue"
         [isActive]="rack.isActive"
+        (editCard)="onEditCard($event)"
       ></app-rack-card>
     }
     <button class="add-card-btn" (click)="onAddCard()">
@@ -22,5 +23,16 @@
       (closeModal)="onCloseModal()" 
       (submitSensor)="onSubmitSensor($event)">
     </app-add-sensor-form>
+  }
+
+  @if (showEditModal()) {
+    <app-update-sensor-form 
+      [sensorId]="editingSensor()?.rackId || ''"
+      [sensorName]="editingSensor()?.rackName || ''"
+      [minValue]="editingSensor()?.minValue || 0"
+      [maxValue]="editingSensor()?.maxValue || 0"
+      (closeModal)="onCloseEditModal()" 
+      (updateSensor)="onUpdateSensor($event)">
+    </app-update-sensor-form>
   }
 </div>

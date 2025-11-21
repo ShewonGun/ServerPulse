@@ -1,18 +1,23 @@
-// add-sensor-form.component.ts
-import { Component, EventEmitter, Output } from '@angular/core';
+// update-sensor-form.component.ts
+import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-add-sensor-form',
+  selector: 'app-update-sensor-form',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './addSensorForm.html',
-  styleUrls: ['./addSensorForm.scss']
+  templateUrl: './updateSensorForm.html',
+  styleUrls: ['./updateSensorForm.scss']
 })
-export class AddSensorFormComponent {
+export class UpdateSensorFormComponent implements OnInit {
+  @Input() sensorId: string = '';
+  @Input() sensorName: string = '';
+  @Input() minValue: number = 0;
+  @Input() maxValue: number = 0;
+  
   @Output() closeModal = new EventEmitter<void>();
-  @Output() submitSensor = new EventEmitter<{ id: string; name: string; min: number; max: number }>();
+  @Output() updateSensor = new EventEmitter<{ id: string; name: string; min: number; max: number }>();
 
   sensorData = {
     id: '',
@@ -21,22 +26,30 @@ export class AddSensorFormComponent {
     max: null as number | null
   };
 
+  ngOnInit(): void {
+    // Load existing data when component initializes
+    this.sensorData = {
+      id: this.sensorId,
+      name: this.sensorName,
+      min: this.minValue,
+      max: this.maxValue
+    };
+  }
+
   onSubmit(): void {
     if (this.isFormValid()) {
-      console.log('Sensor Data:', this.sensorData);
-      this.submitSensor.emit({
+      console.log('Updated Sensor Data:', this.sensorData);
+      this.updateSensor.emit({
         id: this.sensorData.id,
         name: this.sensorData.name,
         min: this.sensorData.min!,
         max: this.sensorData.max!
       });
-      this.resetForm();
       this.closeModal.emit();
     }
   }
 
   onCancel(): void {
-    this.resetForm();
     this.closeModal.emit();
   }
 
@@ -50,20 +63,10 @@ export class AddSensorFormComponent {
 
   isFormValid(): boolean {
     return !!(
-      this.sensorData.id.trim() &&
       this.sensorData.name.trim() &&
       this.sensorData.min !== null &&
       this.sensorData.max !== null &&
       this.sensorData.min < this.sensorData.max
     );
-  }
-
-  resetForm(): void {
-    this.sensorData = {
-      id: '',
-      name: '',
-      min: null,
-      max: null
-    };
   }
 }

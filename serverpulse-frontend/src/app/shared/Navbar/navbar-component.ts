@@ -16,10 +16,19 @@ export class NavbarComponent implements OnInit, OnDestroy {
   currentDay: string = '';
   currentMonth: string = '';
   currentYear: string = '';
+  isDropdownOpen: boolean = false;
   
   private timeSubscription?: Subscription;
 
   constructor(private cdr: ChangeDetectorRef) {}
+
+  toggleDropdown(): void {
+    this.isDropdownOpen = !this.isDropdownOpen;
+  }
+
+  closeDropdown(): void {
+    this.isDropdownOpen = false;
+  }
 
   ngOnInit(): void {
     // Initialize time immediately
