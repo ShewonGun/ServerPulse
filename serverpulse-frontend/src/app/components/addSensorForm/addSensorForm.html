@@ -1,0 +1,72 @@
+<!-- add-sensor-form.component.html -->
+<div class="modal-backdrop" (click)="onBackdropClick()">
+  <div class="form-container" (click)="onModalClick($event)">
+    <div class="form-card">
+      <h2 class="form-title">Add Sensor</h2>
+    
+    <form (ngSubmit)="onSubmit()" #sensorForm="ngForm">
+      <div class="form-group">
+        <label for="sensorName" class="form-label">Sensor Name</label>
+        <input
+          type="text"
+          id="sensorName"
+          name="sensorName"
+          class="form-input"
+          placeholder="Enter sensor name"
+          [(ngModel)]="sensorData.name"
+          required
+        />
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="minValue" class="form-label">Min Value</label>
+          <input
+            type="number"
+            id="minValue"
+            name="minValue"
+            class="form-input"
+            placeholder="Min"
+            [(ngModel)]="sensorData.min"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="maxValue" class="form-label">Max Value</label>
+          <input
+            type="number"
+            id="maxValue"
+            name="maxValue"
+            class="form-input"
+            placeholder="Max"
+            [(ngModel)]="sensorData.max"
+            required
+          />
+        </div>
+      </div>
+
+      <div 
+        class="error-message" 
+        *ngIf="sensorData.min !== null && sensorData.max !== null && sensorData.min >= sensorData.max">
+        Min value must be less than Max value
+      </div>
+
+      <div class="form-actions">
+        <button 
+          type="button" 
+          class="btn btn-cancel" 
+          (click)="onCancel()">
+          Cancel
+        </button>
+        <button 
+          type="submit" 
+          class="btn btn-submit" 
+          [disabled]="!isFormValid()">
+          Add Sensor
+        </button>
+      </div>
+    </form>
+  </div>
+  </div>
+</div>

@@ -1,6 +1,6 @@
 // rack-card.component.scss
 .rack-card {
-  background: #1a1a1a;
+  background: #0f0f0f;
   border: 1px solid #333;
   border-radius: 12px;
   padding: 18px;
@@ -8,6 +8,17 @@
   color: white;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   transition: all 0.3s ease;
+
+  &:hover {
+    transform: scale(1.02);
+    border-color: #444;
+
+    .card-header .action-icons .hover-buttons {
+      opacity: 1;
+      transform: translateX(0);
+      pointer-events: auto;
+    }
+  }
 
   &.disabled {
     opacity: 0.4;
@@ -24,12 +35,6 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 18px;
-
-    &:hover .action-icons .hover-buttons {
-      opacity: 1;
-      transform: translateX(0);
-      pointer-events: auto;
-    }
 
     .rack-info {
       display: flex;
@@ -168,16 +173,12 @@
 
     .value-box {
       flex: 1;
-      background: #0a0a0a;
-      border: 1px solid #222;
+      background: #000000;
+      border: 1px solid #1a1a1a;
       border-radius: 8px;
       padding: 20px 16px;
       text-align: center;
-      transition: transform 0.2s ease;
-
-      &:hover {
-        transform: translateY(-2px);
-      }
+      transition: background 0.2s ease;
 
       .label {
         font-size: 13px;
