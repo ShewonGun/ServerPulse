@@ -34,7 +34,7 @@
       font-weight: 800;
       margin: 0;
       letter-spacing: 1px;
-      background: linear-gradient(135deg, #00ff41 0%, #ffeb3b 50%, #ff3b3b 100%);
+      background: linear-gradient(135deg, #00D26A 0%, #ffeb3b 50%, #ff3b3b 100%);
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -51,7 +51,7 @@
         left: 0;
         width: 40%;
         height: 3px;
-        background: linear-gradient(90deg, #00ff41 0%, #ffeb3b 50%, #ff3b3b 100%);
+        background: linear-gradient(90deg, #00D26A 0%, #ffeb3b 50%, #ff3b3b 100%);
         border-radius: 2px;
         box-shadow: 0 0 4px rgba(0, 255, 65, 0.2);
         animation: underlineGlow 2s ease-in-out infinite;
@@ -134,8 +134,8 @@
 
         &.active {
           background: rgba(0, 255, 65, 0.08);
-          color: #00ff41;
-          border-left: 3px solid #00ff41;
+          color: #00D26A;
+          border-left: 3px solid #00D26A;
         }
       }
 
@@ -183,7 +183,7 @@
       .time {
         font-size: 12px;
         font-weight: 700;
-        color: #00ff00;
+        color: #00D26A;
         //font-family: 'Monaco', 'Consolas', monospace;
         letter-spacing: 1px;
       }
@@ -191,7 +191,7 @@
       .period {
         font-size: 10px;
         font-weight: 600;
-        color: #00cc00;
+        color: #00D26A;
         letter-spacing: 0.5px;
       }
     }
