@@ -1,12 +1,12 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterLinkActive } from '@angular/router';
 import { interval, Subscription } from 'rxjs';
+import { DropMenuComponent } from '../../components/dropMenu/dropMenu';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive],
+  imports: [CommonModule, DropMenuComponent],
   templateUrl: './navbar-component.html',
   styleUrls: ['./navbar-component.scss']
 })
@@ -17,21 +17,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
   currentMonth: string = '';
   currentYear: string = '';
   period: string = '';
-  isDropdownOpen: boolean = false;
-  userName: string = 'Shewon Gunarathne';
-  userRole: string = 'Administrator';
   
   private timeSubscription?: Subscription;
 
   constructor(private cdr: ChangeDetectorRef) {}
-
-  toggleDropdown(): void {
-    this.isDropdownOpen = !this.isDropdownOpen;
-  }
-
-  closeDropdown(): void {
-    this.isDropdownOpen = false;
-  }
 
   ngOnInit(): void {
     // Initialize time immediately
