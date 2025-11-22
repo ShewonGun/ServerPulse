@@ -9,15 +9,12 @@
 
     <!-- Right Side - Navigation Links and Date/Time -->
     <div class="navbar-right">
-      <div class="datetime-container">
-        <div class="time-widget">
-          <div class="time-label">TIME</div>
-          <div class="time-value">{{ currentTime }}</div>
+      <div class="datetime-card">
+        <div class="time-display">
+          <span class="time">{{ currentTime }}</span>
+          <span class="period">{{ period }}</span>
         </div>
-        <div class="date-widget">
-          <div class="date-label">DATE</div>
-          <div class="date-value">{{ currentMonth }} {{ currentDay }},{{ currentYear }}</div>
-        </div>
+        <div class="date-display">|&nbsp;&nbsp;{{ currentDate }}</div>
       </div>
       <div class="menu-container">
         <button class="menu-icon" (click)="toggleDropdown()">
@@ -34,6 +31,11 @@
           <a routerLink="/details" class="dropdown-item" routerLinkActive="active" (click)="closeDropdown()">
             Admin
           </a>
+          <div class="dropdown-divider"></div>
+          <div class="user-info">
+            <div class="user-name">{{ userName }}</div>
+            <div class="user-role">{{ userRole }}</div>
+          </div>
         </div>
       </div>
     </div>

@@ -16,7 +16,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
   currentDay: string = '';
   currentMonth: string = '';
   currentYear: string = '';
+  period: string = '';
   isDropdownOpen: boolean = false;
+  userName: string = 'Shewon Gunarathne';
+  userRole: string = 'Administrator';
   
   private timeSubscription?: Subscription;
 
@@ -66,18 +69,20 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Format time as H H : M M (with spaces between each character)
+   * Format time as HH:MM in 12-hour format
    */
   private formatTime(date: Date): string {
-    const hours = date.getHours().toString().padStart(2, '0');
+    let hours = date.getHours();
     const minutes = date.getMinutes().toString().padStart(2, '0');
     
-    const timeString = `${hours}:${minutes}`;
-    return timeString.split('').join(' ');
+    this.period = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12 || 12; // Convert to 12-hour format
+    
+    return `${hours.toString().padStart(2, '0')}:${minutes}`;
   }
 
   /**
-   * Format date as "N o v     4 ,   2 0 2 5" (with more space between month and day)
+   * Format date as "Nov 21, 2025"
    */
   private formatDate(date: Date): string {
     const options: Intl.DateTimeFormatOptions = {
@@ -86,16 +91,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
       day: 'numeric'
     };
     
-    const formattedDate = date.toLocaleDateString('en-US', options);
-    // Split by comma to separate "Nov 4" from "2025"
-    const parts = formattedDate.split(', ');
-    if (parts.length === 2) {
-      // Add more spaces between month and day, and spaces between all characters in year
-      const monthDayWithExtraSpace = parts[0].replace(' ', '                '); // 16 spaces between Nov and 5
-      const monthDaySpaced = monthDayWithExtraSpace.split('').join(' ');
-      const yearSpaced = parts[1].split('').join(' ');
-      return `${monthDaySpaced} , ${yearSpaced}`;
-    }
-    return formattedDate.split('').join(' ');
+    return date.toLocaleDateString('en-US', options);
   }
 }
