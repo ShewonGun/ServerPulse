@@ -144,6 +144,52 @@
 }
 
 // Responsive Design
+// Tablet and iPad (portrait and landscape)
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  .dashboard-layout {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    min-height: calc(100vh - 110px);
+  }
+
+  .featured-section {
+    margin-top: 0;
+    padding-top: 0;
+  }
+
+  .featured-card {
+    transform: scale(0.9);
+    max-width: 400px;
+  }
+
+  .small-cards-section {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+    margin-top: -1rem;
+    padding-bottom: 3rem;
+  }
+
+  .small-card {
+    transform: scale(0.75);
+    margin: -2rem -2rem -4rem -2rem;
+  }
+
+  .pagination-controls {
+    gap: 1.25rem;
+  }
+
+  .pagination-btn {
+    width: 42px;
+    height: 42px;
+  }
+
+  .page-indicator {
+    width: 34px;
+    height: 34px;
+    font-size: 13px;
+  }
+}
+
 @media screen and (max-width: 1200px) {
   .dashboard-layout {
     grid-template-columns: 1fr;

@@ -56,6 +56,18 @@
   }
 }
 
+// Tablet and iPad responsive styles
+@media (min-width: 769px) and (max-width: 1024px) {
+  .details-page {
+    padding: 1.5rem;
+  }
+
+  .racks-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+}
+
 @media (max-width: 768px) {
   .details-page {
     padding: 1rem;

@@ -197,3 +197,14 @@
     }
   }
 }
+
+// Tablet and iPad responsiveness - always show action buttons
+@media (max-width: 1024px) {
+  .rack-card {
+    .card-header .action-icons .hover-buttons {
+      opacity: 1;
+      transform: translateX(0);
+      pointer-events: auto;
+    }
+  }
+}

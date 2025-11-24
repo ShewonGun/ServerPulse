@@ -185,11 +185,43 @@
 // Responsive design
 @media (max-width: 600px) {
   .form-container {
-    .form-card {
-      padding: 28px;
+    width: 95%;
+    max-width: 95vw;
 
-      .form-row {
-        grid-template-columns: 1fr;
+    .form-card {
+      padding: 24px 20px;
+      box-sizing: border-box;
+
+      .form-title {
+        font-size: 22px;
+        margin-bottom: 24px;
+      }
+
+      form {
+        gap: 20px;
+
+        .form-row {
+          grid-template-columns: 1fr;
+        }
+
+        .form-group {
+          .form-input {
+            padding: 12px 14px;
+            font-size: 14px;
+            box-sizing: border-box;
+            width: 100%;
+          }
+        }
+
+        .form-actions {
+          flex-direction: column;
+          gap: 10px;
+
+          .btn {
+            width: 100%;
+            padding: 12px 20px;
+          }
+        }
       }
     }
   }
