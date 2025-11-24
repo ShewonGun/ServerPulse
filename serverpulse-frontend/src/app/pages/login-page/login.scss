@@ -1,0 +1,177 @@
+.login-container {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  overflow: hidden;
+  background: transparent;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /* make the accent grow up from the bottom of the viewport */
+    height: 40vh;
+    pointer-events: none;
+    background: linear-gradient(
+      to top,
+      rgba(0,210,106,0.20) 0%,
+      rgba(0,210,106,0.12) 25%,
+      rgba(0,210,106,0.05) 45%,
+      rgba(0,0,0,0) 85%
+    );
+    filter: blur(12px);
+    mix-blend-mode: screen;
+  }
+}
+
+.login-content {
+  max-width: 540px;
+  width: 90%;
+  animation: slideUp 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+
+  .login-card {
+    background: linear-gradient(145deg, #1a1a1a 0%, #141414 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 40px;
+    width: 100%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 1px rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #00D26A 0%, #00D26A 100%);
+    }
+
+    .form-title {
+      font-size: 26px;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 32px;
+      letter-spacing: -0.5px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        .form-label {
+          font-size: 13px;
+          font-weight: 600;
+          color: rgba(255, 255, 255, 0.7);
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+
+        .form-input {
+          background: rgba(255, 255, 255, 0.03);
+          border: 1.5px solid rgba(255, 255, 255, 0.08);
+          border-radius: 10px;
+          padding: 14px 18px;
+          font-size: 15px;
+          color: #ffffff;
+          transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+          font-family: inherit;
+
+          &::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+          }
+
+          &:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.05);
+            border-color: #10B981;
+          }
+
+          &:hover:not(:focus) {
+            border-color: rgba(255, 255, 255, 0.15);
+          }
+
+          &.error {
+            border-color: #ff4d4d;
+            background: rgba(255, 77, 77, 0.05);
+          }
+        }
+      }
+
+      .form-actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 8px;
+
+        .btn {
+          flex: 1;
+          padding: 14px 24px;
+          font-size: 15px;
+          font-weight: 600;
+          border: none;
+          border-radius: 10px;
+          cursor: pointer;
+          transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+          font-family: inherit;
+
+          &:active {
+            transform: scale(0.97);
+          }
+
+          &.btn-submit {
+            background: linear-gradient(135deg, #00D26A 0%, #00D26A 100%);
+            color: #000000;
+            font-weight: 700;
+
+            &:hover:not(:disabled) {
+              background: linear-gradient(135deg, #00D26A 0%, #00D26A 100%);
+              transform: translateY(-1px);
+            }
+
+            &:disabled {
+              /* Keep the colorful gradient when disabled, but reduce opacity */
+              opacity: 0.7;
+              /* still allow click cursor so it's always clickable visually */
+              cursor: pointer;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+// Responsive design
+@media (max-width: 600px) {
+  .login-content {
+    .login-card {
+      padding: 28px;
+    }
+  }
+}

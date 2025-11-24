@@ -53,8 +53,7 @@ export class AddSensorFormComponent {
       this.sensorData.id.trim() &&
       this.sensorData.name.trim() &&
       this.sensorData.min !== null &&
-      this.sensorData.max !== null &&
-      this.sensorData.min < this.sensorData.max
+      this.sensorData.max !== null
     );
   }
 

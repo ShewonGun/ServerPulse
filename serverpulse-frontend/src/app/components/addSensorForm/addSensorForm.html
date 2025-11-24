@@ -59,12 +59,6 @@
         </div>
       </div>
 
-      <div 
-        class="error-message" 
-        *ngIf="sensorData.min !== null && sensorData.max !== null && sensorData.min >= sensorData.max">
-        Min value must be less than Max value
-      </div>
-
       <div class="form-actions">
         <button 
           type="button" 

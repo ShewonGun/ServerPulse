@@ -7,10 +7,10 @@
     </svg>
   </button>
   <div class="dropdown-menu" [class.show]="isDropdownOpen">
-    <a routerLink="/" class="dropdown-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" (click)="closeDropdown()">
+    <a routerLink="/dashboard" class="dropdown-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" (click)="closeDropdown()">
       Dashboard
     </a>
-    <a routerLink="/details" class="dropdown-item" routerLinkActive="active" (click)="closeDropdown()">
+    <a *ngIf="isAdmin" routerLink="/details" class="dropdown-item" routerLinkActive="active" (click)="closeDropdown()">
       Admin
     </a>
     <div class="dropdown-divider"></div>
@@ -18,5 +18,13 @@
       <div class="user-name">{{ userName }}</div>
       <div class="user-role">{{ userRole }}</div>
     </div>
+    <div class="dropdown-divider"></div>
+    <button class="dropdown-item logout-btn" (click)="logout()">
+      <svg class="logout-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M16 13v-2H7V8l-5 4 5 4v-3h9z" fill="currentColor"/>
+        <path d="M20 3h-8v2h8v14h-8v2h8a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z" fill="currentColor"/>
+      </svg>
+      <span>Logout</span>
+    </button>
   </div>
 </div>

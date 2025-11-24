@@ -61,8 +61,8 @@
 </style>
 
 <div class="app-container">
-  <!-- Navigation Bar -->
-  <app-navbar></app-navbar>
+  <!-- Navigation Bar (hidden on /login) -->
+  <app-navbar *ngIf="showNavbar"></app-navbar>
   
   <!-- Main Content Area with Router -->
   <main class="main-content">
