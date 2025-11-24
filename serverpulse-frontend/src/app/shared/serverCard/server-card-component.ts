@@ -47,10 +47,10 @@ export class ServerCardComponent implements OnInit, OnDestroy, AfterViewInit, On
       // Always set gauge progress immediately to ensure it displays
       this.gaugeProgress = this.gaugePercentage;
       
-      // Only animate for featured cards in desktop view
-      // Mobile view and small cards get immediate display
-      if (this.showChart && window.innerWidth > 768) {
-        // Reset and animate for featured card on desktop
+      // Only animate for featured cards in desktop view (larger than 1024px)
+      // Tablet/iPad and mobile view get immediate display without animation
+      if (this.showChart && window.innerWidth > 1024) {
+        // Reset and animate for featured card on desktop only
         this.gaugeProgress = 0;
         setTimeout(() => this.animateGauge(), 100);
       }

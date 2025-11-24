@@ -70,7 +70,7 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
     // Only check in browser environment
     if (isPlatformBrowser(this.platformId)) {
       const wasMobile = this.isMobileView();
-      const isMobile = window.innerWidth <= 768;
+      const isMobile = window.innerWidth <= 1024;
       this.isMobileView.set(isMobile);
       
       // Only change rotation state if mobile view status actually changed
