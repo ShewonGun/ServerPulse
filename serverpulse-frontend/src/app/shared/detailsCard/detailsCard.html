@@ -26,8 +26,8 @@
           </svg>
         </button>
       </div>
-      <label class="checkbox-container">
-        <input type="checkbox" [(ngModel)]="isActive" (change)="onToggleActive()" />
+      <label class="checkbox-container" (click)="onToggleClick(); $event.preventDefault()">
+        <input type="checkbox" [checked]="isActive" />
         <span class="checkmark"></span>
       </label>
     </div>
@@ -41,6 +41,50 @@
     <div class="value-box">
       <div class="label">Max</div>
       <div class="value">{{ maxValue }}</div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="confirm-backdrop" *ngIf="showDeleteConfirm" (click)="onConfirmBackdropClick()">
+  <div class="confirm-modal" (click)="onConfirmModalClick($event)">
+    <div class="confirm-icon">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+        <circle cx="12" cy="12" r="10" stroke="#ff4444" stroke-width="2"/>
+        <path d="M12 7V13" stroke="#ff4444" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="12" cy="17" r="1" fill="#ff4444"/>
+      </svg>
+    </div>
+    <h3 class="confirm-title">Delete Sensor</h3>
+    <p class="confirm-message">Are you sure you want to delete <strong>{{ rackName }}</strong>? This action cannot be undone.</p>
+    <div class="confirm-actions">
+      <button class="btn btn-cancel" (click)="cancelDelete()">Cancel</button>
+      <button class="btn btn-delete" (click)="confirmDelete()">Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toggle Confirmation Modal -->
+<div class="confirm-backdrop" *ngIf="showToggleConfirm" (click)="onToggleBackdropClick()">
+  <div class="confirm-modal" [ngClass]="pendingActiveStatus ? 'toggle-modal-activate' : 'toggle-modal-deactivate'" (click)="onConfirmModalClick($event)">
+    <div class="confirm-icon">
+      <svg *ngIf="pendingActiveStatus" width="48" height="48" viewBox="0 0 24 24" fill="none">
+        <circle cx="12" cy="12" r="10" stroke="#00D26A" stroke-width="2"/>
+        <path d="M8 12L11 15L16 9" stroke="#00D26A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <svg *ngIf="!pendingActiveStatus" width="48" height="48" viewBox="0 0 24 24" fill="none">
+        <circle cx="12" cy="12" r="10" stroke="#ffaa00" stroke-width="2"/>
+        <path d="M15 9L9 15" stroke="#ffaa00" stroke-width="2" stroke-linecap="round"/>
+        <path d="M9 9L15 15" stroke="#ffaa00" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <h3 class="confirm-title">{{ pendingActiveStatus ? 'Activate' : 'Deactivate' }} Sensor</h3>
+    <p class="confirm-message">Are you sure you want to {{ pendingActiveStatus ? 'activate' : 'deactivate' }} <strong>{{ rackName }}</strong>?</p>
+    <div class="confirm-actions">
+      <button class="btn btn-cancel" (click)="cancelToggle()">Cancel</button>
+      <button class="btn" [ngClass]="pendingActiveStatus ? 'btn-activate' : 'btn-deactivate'" (click)="confirmToggle()">
+        {{ pendingActiveStatus ? 'Activate' : 'Deactivate' }}
+      </button>
     </div>
   </div>
 </div>

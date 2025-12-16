@@ -198,6 +198,180 @@
   }
 }
 
+// Delete Confirmation Modal Styles
+.confirm-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.confirm-modal {
+  background: linear-gradient(145deg, #1a1a1a 0%, #141414 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 32px;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 1px rgba(255, 255, 255, 0.1);
+  text-align: center;
+  animation: slideUp 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: #00D26A;
+  }
+
+  .confirm-icon {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    
+    svg {
+      animation: pulse 2s ease-in-out infinite;
+    }
+  }
+
+  .confirm-title {
+    font-size: 22px;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 12px;
+    letter-spacing: -0.5px;
+  }
+
+  .confirm-message {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 28px;
+    line-height: 1.5;
+
+    strong {
+      color: #ffffff;
+      font-weight: 600;
+    }
+  }
+
+  .confirm-actions {
+    display: flex;
+    gap: 12px;
+
+    .btn {
+      flex: 1;
+      padding: 14px 24px;
+      font-size: 15px;
+      font-weight: 600;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      font-family: inherit;
+
+      &:active {
+        transform: scale(0.97);
+      }
+
+      &.btn-cancel {
+        background: rgba(255, 255, 255, 0.04);
+        border: 1.5px solid rgba(255, 255, 255, 0.1);
+        color: rgba(255, 255, 255, 0.7);
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.08);
+          border-color: rgba(255, 255, 255, 0.2);
+          color: #ffffff;
+        }
+      }
+
+      &.btn-delete {
+        background: linear-gradient(135deg, #ff4444 0%, #ff6b6b 100%);
+        color: #ffffff;
+        font-weight: 700;
+
+        &:hover {
+          background: linear-gradient(135deg, #ff5555 0%, #ff7c7c 100%);
+          transform: translateY(-1px);
+        }
+      }
+
+      &.btn-activate {
+        background: linear-gradient(135deg, #00D26A 0%, #00E676 100%);
+        color: #000000;
+        font-weight: 700;
+
+        &:hover {
+          background: linear-gradient(135deg, #00E676 0%, #00F080 100%);
+          transform: translateY(-1px);
+        }
+      }
+
+      &.btn-deactivate {
+        background: linear-gradient(135deg, #ffaa00 0%, #ffcc00 100%);
+        color: #000000;
+        font-weight: 700;
+
+        &:hover {
+          background: linear-gradient(135deg, #ffbb00 0%, #ffdd00 100%);
+          transform: translateY(-1px);
+        }
+      }
+    }
+  }
+
+  &.toggle-modal-activate::before {
+    background: #00D26A;
+  }
+
+  &.toggle-modal-deactivate::before {
+    background: #ffaa00;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
 // Tablet and iPad responsiveness - always show action buttons
 @media (max-width: 1024px) {
   .rack-card {
@@ -205,6 +379,25 @@
       opacity: 1;
       transform: translateX(0);
       pointer-events: auto;
+    }
+  }
+
+  .confirm-modal {
+    padding: 24px;
+    max-width: 340px;
+
+    .confirm-icon svg {
+      width: 40px;
+      height: 40px;
+    }
+
+    .confirm-title {
+      font-size: 20px;
+    }
+
+    .confirm-actions {
+      flex-direction: column;
+      gap: 10px;
     }
   }
 }
