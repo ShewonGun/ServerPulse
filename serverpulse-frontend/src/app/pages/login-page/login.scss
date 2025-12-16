@@ -60,14 +60,53 @@
       font-size: 26px;
       font-weight: 600;
       color: #ffffff;
-      margin-bottom: 32px;
+      margin-bottom: 24px;
       letter-spacing: -0.5px;
+    }
+
+    .error-notification {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(239, 68, 68, 0.08);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      border-radius: 10px;
+      padding: 0 16px;
+      color: #ff8080;
+      font-size: 14px;
+      font-weight: 500;
+      margin-top: 0;
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      pointer-events: none;
+
+      &.show {
+        max-height: 100px;
+        padding: 14px 16px;
+        margin-top: 20px;
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+        animation: slideInShake 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .error-icon {
+        flex-shrink: 0;
+        color: #ff8080;
+      }
     }
 
     form {
       display: flex;
       flex-direction: column;
       gap: 24px;
+
+      &.shake {
+        animation: shake 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      }
 
       .form-group {
         display: flex;
@@ -164,6 +203,33 @@
   to {
     transform: translateY(0);
     opacity: 1;
+  }
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-8px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(8px);
+  }
+}
+
+@keyframes slideInShake {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 

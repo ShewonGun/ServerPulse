@@ -3,7 +3,7 @@
     <div class="login-card">
       <h2 class="form-title">Login</h2>
       
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" [class.shake]="showError">
         <div class="form-group">
           <label for="email" class="form-label">Email or Username</label>
           <input 
@@ -26,6 +26,16 @@
             formControlName="password"
             [class.error]="submitted && loginForm.get('password')?.invalid"
           />
+        </div>
+
+        <!-- Error Notification -->
+        <div class="error-notification" [class.show]="showError">
+          <svg class="error-icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2"/>
+            <path d="M12 8V12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="12" cy="16" r="1" fill="currentColor"/>
+          </svg>
+          <span>{{ errorMessage }}</span>
         </div>
 
         <div class="form-actions">

@@ -13,6 +13,8 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit, OnDestroy {
   loginForm: FormGroup;
   submitted = false;
+  errorMessage = '';
+  showError = false;
   
   // Dummy credentials for testing
   private readonly DUMMY_USERS = [
@@ -77,7 +79,13 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.router.navigate(['/dashboard']);
       } else {
         console.log('Invalid credentials');
-        alert('Invalid email or password. Please try:\nEmail: admin@serverpulse.com\nPassword: admin123');
+        this.errorMessage = 'Invalid email or password. Please try again.';
+        this.showError = true;
+        
+        // Auto-hide error after 4 seconds
+        setTimeout(() => {
+          this.showError = false;
+        }, 4000);
       }
     } else {
       // mark fields touched so Angular validators run and we display errors

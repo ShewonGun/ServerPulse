@@ -115,9 +115,6 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
       
       console.log('Rotation:', this.featuredServerIndex(), '→', nextIndex, 'Rack:', data[nextIndex].rackName);
       this.featuredServerIndex.set(nextIndex);
-      
-      // Reset to first page when featured card changes to avoid skipping cards
-      this.currentPage.set(0);
     }, 5000); // 5 seconds
   }
 
