@@ -341,6 +341,10 @@
   &.toggle-modal-deactivate::before {
     background: #ffaa00;
   }
+
+  &.delete-modal::before {
+    background: #ff4444;
+  }
 }
 
 @keyframes fadeIn {
